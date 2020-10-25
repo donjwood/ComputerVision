@@ -5,7 +5,7 @@ from pylab import *
 im = array(Image.open('empire.jpg').convert('L'))
 
 # create a new figure
-figure()
+figure('Contours')
 # don't use colors
 gray()
 # show contours with origin upper left corner
@@ -14,6 +14,6 @@ contour(im, origin='image')
 axis('equal')
 axis('off')
 
-figure()
+figure('Histogram')
 hist(im.flatten(), 128)
 show()

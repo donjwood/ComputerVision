@@ -1,11 +1,11 @@
 from PIL import Image
 from pylab import *
-from imtools import *
+import imtools
 
 im = array(Image.open('empire.jpg'))
-figure()
+figure('Orignal')
 imshow(im)
-im_resz = imresize(im, [142,200])
-figure()
+im_resz = imtools.imresize(im, [142,200])
+figure('Resized')
 imshow(im_resz)
 show()
