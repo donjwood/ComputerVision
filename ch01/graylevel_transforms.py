@@ -1,8 +1,8 @@
 from PIL import Image
-from numpy import *
-from pylab import *
+import numpy as np
+import pylab as pl
 
-im = array(Image.open('empire.jpg').convert('L'))
+im = pl.array(Image.open('images/empire.jpg').convert('L'))
 
 im2 = 255 - im # invert image
 
@@ -17,17 +17,17 @@ print('Figure 3 min/max: ' + str(im3.min()) + '/' + str(im3.max()))
 print('Figure 4 min/max: ' + str(im4.min()) + '/' + str(im4.max()))
 
 
-figure('Original (f(x)=x)')
-gray()
-imshow(im)
-figure('Inversion (f(x)=255-x)')
-gray()
-imshow(im2)
-figure('Clamping to Middle (f(x)=(100.0/255.0)*x+100)')
-gray()
-imshow(im3)
-figure('Quadratic Transformation (f(x)=255.0*(x/255.0)^2)')
-gray()
-imshow(im4)
+pl.figure('Original (f(x)=x)')
+pl.gray()
+pl.imshow(im)
+pl.figure('Inversion (f(x)=255-x)')
+pl.gray()
+pl.imshow(im2)
+pl.figure('Clamping to Middle (f(x)=(100.0/255.0)*x+100)')
+pl.gray()
+pl.imshow(im3)
+pl.figure('Quadratic Transformation (f(x)=255.0*(x/255.0)^2)')
+pl.gray()
+pl.imshow(im4)
 
-show()
+pl.show()
