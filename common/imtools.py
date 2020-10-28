@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 import numpy as np
+from scipy.ndimage import filters
 
 def get_imlist(path):
     return [os.path.join(path, f) for f in os.listdir(path) if f.endswith('.jpg')]
@@ -21,6 +22,19 @@ def histeq(im, nbr_bins=256):
     # use linear interpolation of cdf to find new pixel values
     im2 = np.interp(im.flatten(),bins[:-1], cdf)
     return im2.reshape(im.shape), cdf
+
+# Perform gaussian blur
+# Works on both color and grayscale images
+def gaussian_blur(im, sigma):
+    
+    if len(im.shape) == 3:
+        im_blur = np.empty_like(im)
+        for i in range(3):
+            im_blur[:,:,i] = filters.gaussian_filter(im[:,:,i],sigma)
+            im_blur = np.uint8(im_blur)
+    else:
+        im_blur = filters.gaussian_filter(im,sigma)
+    return im_blur
 
 # Compute the average of a list of images
 def compute_average(imlist):

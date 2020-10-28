@@ -2,6 +2,7 @@ from PIL import Image
 import numpy as np
 import pylab as pl
 from scipy.ndimage import filters
+from common import imtools
 
 # Define range of sigma values
 sigma_range = range(5, 25, 5)
@@ -20,9 +21,7 @@ pl.contour(im, origin='image')
 
 # Output blurred with different sigma values
 for sigma in sigma_range:
-    im_gaus = np.zeros(im.shape)
-    im_gaus[:,:] = filters.gaussian_filter(im[:,:],sigma)
-    im_gaus = np.uint8(im_gaus)
+    im_gaus = imtools.gaussian_blur(im, sigma)
     pl.figure('Gaussian Blur with \u03C3 = ' + str(sigma))
     pl.gray()
     pl.title('Gaussian Blur with \u03C3 = ' + str(sigma))
