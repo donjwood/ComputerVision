@@ -4,6 +4,11 @@ import pylab as pl
 from scipy.ndimage import filters
 from common import imtools
 
+# Implement an unsharp masking operation (http://en.wikipedia.org/wiki/Unsharp_
+# masking) by blurring an image and then subtracting the blurred version from the
+# original. This gives a sharpening effect to the image. Try this on both color and
+# grayscale images.
+
 # Unsharp
 def unsharp(im, sigma, amount, threshold):
 
@@ -21,30 +26,27 @@ threshold = 10
 im_gray = np.array(Image.open('images/SmokeyInBox.jpg').convert('L')).astype('float32')
 im_gray_unsharp = unsharp(im_gray, sigma, amount, threshold)
 
-pl.figure('Original Grayscale Image')
+pl.figure('Unsharp')
 pl.gray()
+pl.subplot(2, 2, 1)
 pl.title('Original Grayscale Image')
 pl.imshow(im_gray)
-
-pl.figure('Unsharped Grayscale')
 pl.gray()
+pl.subplot(2, 2, 2)
 pl.title('Unsharped Grayscale Image')
 pl.imshow(im_gray_unsharp)
 
 # Load original color image
 im_color = np.array(Image.open('images/SmokeyInBox.jpg')).astype('float32')
-
 im_color_unsharp = unsharp(im_color, sigma, amount, threshold)
 
-pl.figure('Original Color Image')
 pl.gray()
+pl.subplot(2, 2, 3)
 pl.title('Original Color Image')
 pl.imshow(im_color.astype('uint8'))
-
-pl.figure('Unsharped Color Image')
 pl.gray()
+pl.subplot(2, 2, 4)
 pl.title('Unsharped Color Image')
 pl.imshow(im_color_unsharp)
-
 
 pl.show()
