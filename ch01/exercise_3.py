@@ -10,15 +10,14 @@ from common import imtools
 
 def quotient_image(im, sigma):
     im_gaus = imtools.gaussian_blur(im, sigma)
-    im_quot = im/np.clip(im_gaus, 1, 255)
-    #return im_quot
-    #return np.interp(im_quot, [im_quot.min(), im_quot.max()], [0, 1])
-    return np.clip(im + im_quot, 0, 255).astype('uint8')
+    im_quot = im/im_gaus
+    im_quot = np.interp(im_quot, [im_quot.min(), im_quot.max()], [0, 255]).astype('uint8')
+    return im_quot
 
-sigma = 5
+sigma = 10
 
 # Load grayscale image
-im_gray = np.array(Image.open('data/SmokeyInBox.jpg').convert('L')).astype('float32')
+im_gray = np.array(Image.open('data/Einstein.jpg').convert('L'))
 im_gray_quotient = quotient_image(im_gray, sigma)
 
 pl.figure('Quotient Image')
@@ -32,14 +31,15 @@ pl.title('Grayscale Image Quotient')
 pl.imshow(im_gray_quotient)
 
 # Load color image
-im = np.array(Image.open('data/SmokeyInBox.jpg')).astype('float32')
-im_quotient = quotient_image(im, sigma)
-pl.subplot(2, 2, 3)
-pl.title('Original Image')
-pl.imshow(im.astype('uint8'))
-pl.subplot(2, 2, 4)
-pl.title('Image Quotient')
-pl.imshow(im_quotient)
+im_colour = np.array(Image.open('data/Lenna.png'))
+im_colour_quotient = quotient_image(im_colour, sigma)
 
+pl.subplot(2, 2, 3)
+pl.title('Original Color Image')
+pl.imshow(im_colour)
+pl.gray()
+pl.subplot(2, 2, 4)
+pl.title('Color Image Quotient')
+pl.imshow(im_colour_quotient)
 
 pl.show()

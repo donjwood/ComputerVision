@@ -6,12 +6,12 @@ from common import harris
 
 # This is the Harris point matching example in Figure 2-2.
 
-im1 = np.array(Image.open("../data/crans_1_small.jpg").convert("L"))
-im2 = np.array(Image.open("../data/crans_2_small.jpg").convert("L"))
+im1 = np.array(Image.open("data/crans_1_small.jpg").convert("L"))
+im2 = np.array(Image.open("data/crans_2_small.jpg").convert("L"))
 
 # resize to make matching faster
-im1 = imtools.imresize(im1,(im1.shape[1]/2,im1.shape[0]/2))
-im2 = imtools.imresize(im2,(im2.shape[1]/2,im2.shape[0]/2))
+im1 = imtools.imresize(im1,(int(im1.shape[1]/2),int(im1.shape[0]/2)))
+im2 = imtools.imresize(im2,(int(im2.shape[1]/2),int(im2.shape[0]/2)))
 
 wid = 5
 harrisim = harris.compute_harris_response(im1,5) 
