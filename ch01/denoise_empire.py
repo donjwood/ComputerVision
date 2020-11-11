@@ -3,7 +3,7 @@ import pylab as pl
 import numpy as np
 from common import imtools
 
-im = np.array(Image.open('images/empire.jpg').convert('L'))
+im = np.array(Image.open('data/empire.jpg').convert('L'))
 U,T = imtools.denoise(im, im)
 
 pl.figure('De-Noised Empire State Building')

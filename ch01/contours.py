@@ -3,7 +3,7 @@ import numpy as np
 import pylab as pl
 
 # read image to array
-im = np.array(Image.open('images/empire.jpg').convert('L'))
+im = np.array(Image.open('data/empire.jpg').convert('L'))
 
 # create a new figure
 pl.figure('Contours')

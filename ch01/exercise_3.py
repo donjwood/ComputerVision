@@ -18,7 +18,7 @@ def quotient_image(im, sigma):
 sigma = 5
 
 # Load grayscale image
-im_gray = np.array(Image.open('images/SmokeyInBox.jpg').convert('L')).astype('float32')
+im_gray = np.array(Image.open('data/SmokeyInBox.jpg').convert('L')).astype('float32')
 im_gray_quotient = quotient_image(im_gray, sigma)
 
 pl.figure('Quotient Image')
@@ -32,7 +32,7 @@ pl.title('Grayscale Image Quotient')
 pl.imshow(im_gray_quotient)
 
 # Load color image
-im = np.array(Image.open('images/SmokeyInBox.jpg')).astype('float32')
+im = np.array(Image.open('data/SmokeyInBox.jpg')).astype('float32')
 im_quotient = quotient_image(im, sigma)
 pl.subplot(2, 2, 3)
 pl.title('Original Image')

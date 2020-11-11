@@ -5,7 +5,7 @@ from common import harris
 
 threshold = 0.1
 
-im = np.array(Image.open('images/empire.jpg').convert('L'))
+im = np.array(Image.open('data/empire.jpg').convert('L'))
 harrisim = harris.compute_harris_response(im)
 filtered_coords = harris.get_harris_points(harrisim,6,threshold)
 harris.plot_harris_points(im, filtered_coords)

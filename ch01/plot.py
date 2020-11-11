@@ -2,7 +2,7 @@ from PIL import Image
 import pylab as pl
 import numpy as np
 
-im = np.array(Image.open('images/empire.jpg'))
+im = np.array(Image.open('data/empire.jpg'))
 
 pl.imshow(im)
 x = [100,100,400,400]

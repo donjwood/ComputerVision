@@ -4,7 +4,7 @@ import pylab as pl
 from scipy.ndimage import filters, measurements, morphology
 from common import imtools
 
-im = np.array(Image.open('images/houses.jpg').convert('L'))
+im = np.array(Image.open('data/houses.png').convert('L'))
 im = 1*(im<128)
 
 labels, nbr_objects = measurements.label(im)

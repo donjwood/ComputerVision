@@ -7,7 +7,7 @@ from common import imtools
 # Apply the label() function to a thresholded image of your choice. Use histograms
 # and the resulting label image to plot the distribution of object sizes in the image.
 
-im = np.array(Image.open('images/aircraft-formation.jpg').convert('L'))
+im = np.array(Image.open('data/aircraft-formation.jpg').convert('L'))
 im_bin = 1*(im<128)
 
 #labels, nbr_objects = measurements.label(im_bin)

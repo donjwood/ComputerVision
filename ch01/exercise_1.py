@@ -11,7 +11,7 @@ from common import imtools
 sigma_range = range(5, 25, 5)
 
 # Load original image
-im = np.array(Image.open('images/SmokeyInBox.jpg').convert('L'))
+im = np.array(Image.open('data/SmokeyInBox.jpg').convert('L'))
 
 # Output Original with contour
 pl.figure('Original Image and Contour')

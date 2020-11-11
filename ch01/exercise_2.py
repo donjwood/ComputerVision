@@ -23,7 +23,7 @@ amount= 1.5
 threshold = 10
 
 # Load original image
-im_gray = np.array(Image.open('images/SmokeyInBox.jpg').convert('L')).astype('float32')
+im_gray = np.array(Image.open('data/SmokeyInBox.jpg').convert('L')).astype('float32')
 im_gray_unsharp = unsharp(im_gray, sigma, amount, threshold)
 
 pl.figure('Unsharp')
@@ -37,7 +37,7 @@ pl.title('Unsharped Grayscale Image')
 pl.imshow(im_gray_unsharp)
 
 # Load original color image
-im_color = np.array(Image.open('images/SmokeyInBox.jpg')).astype('float32')
+im_color = np.array(Image.open('data/SmokeyInBox.jpg')).astype('float32')
 im_color_unsharp = unsharp(im_color, sigma, amount, threshold)
 
 pl.gray()

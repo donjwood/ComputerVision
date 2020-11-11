@@ -36,7 +36,7 @@ pl.title('Square Outlines')
 pl.axis('off')
 pl.imshow(outlines(im), vmin=0, vmax=255)
 
-im2 = np.array(Image.open('images/SmokeyInBox.jpg').convert('L'))
+im2 = np.array(Image.open('data/SmokeyInBox.jpg').convert('L'))
 pl.subplot(2, 2, 3)
 pl.gray()
 pl.title('Image')

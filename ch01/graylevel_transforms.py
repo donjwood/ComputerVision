@@ -2,7 +2,7 @@ from PIL import Image
 import numpy as np
 import pylab as pl
 
-im = np.array(Image.open('images/empire.jpg').convert('L'))
+im = np.array(Image.open('data/empire.jpg').convert('L'))
 
 im2 = 255 - im # invert image
 

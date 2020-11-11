@@ -3,7 +3,7 @@ import numpy as np
 from common import imtools
 import pylab as pl
 
-im = np.array(Image.open('images/empire.jpg').convert('L'))
+im = np.array(Image.open('data/empire.jpg').convert('L'))
 im2,cdf = imtools.histeq(im)
 pl.figure('Original')
 pl.gray()

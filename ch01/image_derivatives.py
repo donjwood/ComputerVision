@@ -3,7 +3,7 @@ import numpy as np
 from scipy.ndimage import filters
 import pylab as pl
 
-im = np.array(Image.open('images/empire.jpg').convert('L'))
+im = np.array(Image.open('data/empire.jpg').convert('L'))
 
 # Sobel derivative filters
 imx = pl.zeros(im.shape)

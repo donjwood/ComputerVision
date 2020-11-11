@@ -3,7 +3,7 @@ import numpy as np
 from scipy.ndimage import filters
 import pylab as pl
 
-im = np.array(Image.open('images/empire.jpg'))
+im = np.array(Image.open('data/empire.jpg'))
 im2 = pl.zeros(im.shape)
 for i in range(3):
     im2[:,:,i] = filters.gaussian_filter(im[:,:,i],5)
