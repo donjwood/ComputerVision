@@ -63,6 +63,8 @@ def get_descriptors(image,filtered_coords,wid=5):
         using a neighbourhood of width 2*wid+1. (Assume points are 
         extracted with min_distance > wid). """
     
+    # Essentially for all filtered coordinates, this returns a flattened list
+    # of intensity values around them.
     desc = []
     for coords in filtered_coords:
         patch = image[coords[0]-wid:coords[0]+wid+1,
@@ -80,6 +82,9 @@ def match(desc1,desc2,threshold=0.5):
     n = len(desc1[0])
     
     # pair-wise distances
+    # This takes the list of intensity values for the filtered coordinates in two images,
+    # and uses the calculation to determine if there is are any matches. The d array 
+    # essentially provides a mapping of where in the lists the descriptors match.
     d = -np.ones((len(desc1),len(desc2)))
     for i in range(len(desc1)):
         for j in range(len(desc2)):
@@ -88,7 +93,10 @@ def match(desc1,desc2,threshold=0.5):
             ncc_value = sum(d1 * d2) / (n-1) 
             if ncc_value > threshold:
                 d[i,j] = ncc_value
-            
+    
+    # By negating the d array, this means that the higher values will become the lowest 
+    # and come up first with argsort. It then returns all the indices of desc1 where 
+    # desc2 matched desc1. That's what I think is going on anyway.
     ndx = np.argsort(-d)
     matchscores = ndx[:,0]
     
@@ -101,6 +109,8 @@ def match_twosided(desc1,desc2,threshold=0.5):
     matches_12 = match(desc1,desc2,threshold)
     matches_21 = match(desc2,desc1,threshold)
     
+    # Where returns the values in an array, so the results are listed in an array of
+    # length 1, which is why [0] is after the results.
     ndx_12 = np.where(matches_12 >= 0)[0]
     
     # remove matches that are not symmetric
