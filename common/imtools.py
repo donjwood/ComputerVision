@@ -93,3 +93,26 @@ def denoise(im,U_init,tolerance=0.1,tau=0.125,tv_weight=100):
 
     return U,im-U # denoised image and texture residual
 
+# Append 2 images into 1
+def appendimages(im1,im2,axis):
+    """ Return a new image that appends the two images along the specified axis. """
+
+    if axis not in (0,1):
+        return im1
+
+    if axis == 0:
+        opp_axis = 1
+    else:
+        opp_axis = 0
+
+    # Select the image with the lower matching dimension and fill it in
+    match_dim1 = im1.shape[opp_axis]    
+    match_dim2 = im2.shape[opp_axis]
+
+    if match_dim1 < match_dim2:
+        im1 = np.concatenate((im1,np.zeros((match_dim2-match_dim1,im1.shape[axis]))),axis=opp_axis)
+    elif match_dim1 > match_dim2:
+        im2 = np.concatenate((im2,np.zeros((match_dim1-match_dim2,im2.shape[axis]))),axis=opp_axis)
+    # If none of these cases they are equal, no filling needed.
+           
+    return np.concatenate((im1,im2), axis=axis)
