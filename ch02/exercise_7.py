@@ -11,7 +11,7 @@ from common import imtools
 from common import sift
 import pydot
 
-download_path = "data/WhiteHouse"
+download_path = "data/EiffelTower"
 thumbnail_path = os.getcwd() + "/graphs/thumbnails/"
 
 # list of downloaded filenames
@@ -65,4 +65,4 @@ for i in range(nbr_images):
 
             g.add_edge(pydot.Edge(str(i),str(j)))
 
-g.write_png('graphs/whitehouse.png')
+g.write_png('graphs/eiffeltower.png')
