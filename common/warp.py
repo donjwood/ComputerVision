@@ -23,15 +23,23 @@ def image_in_image(im1,im2,tp):
     # Fix the alpha mask which is false anywhere the embedded image is black.
     # This will make any columns true between the first and last true in a row.
     for row in alpha:
-        first_true_col = 0
-        last_true_col = 0
-        for idx, col in enumerate(row):
-            if col:
-                if first_true_col == 0:
-                    first_true_col = idx
-                last_true_col = idx
+        true_cols = np.where(row)[0]
+        if len(true_cols) > 0:
+            row[min(true_cols):max(true_cols)] = True
 
-        if last_true_col !=0:
-            row[first_true_col:last_true_col] = True
+    # np.where uses the mask to return im1_t where true, im2 where false.
+    return np.where(alpha, im1_t, im2)
 
-    return (1-alpha)*im2 + alpha*im1_t
+def alpha_for_triangle(points,m,n):
+    """ Creates alpha map of size (m,n)
+    for a triangle with corners defined by points
+    (given in normalized homogeneous coordinates). """
+
+    alpha = np.zeros((m,n))
+    for i in range(min(points[0]),max(points[0])):
+        for j in range(min(points[1]),max(points[1])):
+            x = np.linalg.solve(points,[i,j,1])
+            if min(x) > 0: #all coefficients positive
+                alpha[i,j] = 1
+
+    return alpha
