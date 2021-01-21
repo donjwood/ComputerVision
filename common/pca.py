@@ -20,11 +20,11 @@ def pca(X):
         tmp = np.dot(X.T,EV).T # this is the compact trick
         V = tmp[::-1] # reverse since last eigenvectors are the ones we want
         S = np.sqrt(e)[::-1] # reverse since eigenvalues are in increasing order
-        for i in range (v.shape[1]):
+        for i in range (V.shape[1]):
             V[:,i] /= S
     else:
         # PCA - SVD used
-        U,S,V = np.linalg.svd(x)
+        U,S,V = np.linalg.svd(X)
         V = V[:num_data] # only makes sense to return the first num_data
 
     # return the projection matrix, the variance and the mean.
