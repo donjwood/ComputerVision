@@ -23,8 +23,8 @@ def calc_scale_diff(locs1,locs2,matchscores):
     for i,m in enumerate(matchscores):
 
         if m>0:
-            matched_pts1.append(locs1[i].pt)
-            matched_pts2.append(locs2[m].pt)
+            matched_pts1.append(locs1[i][:2])
+            matched_pts2.append(locs2[m][:2])
 
     # Calc the distances between the points
     distances1 = []
@@ -39,6 +39,7 @@ def calc_scale_diff(locs1,locs2,matchscores):
 
 im1 = np.array(Image.open("data/crans_1_small.jpg").convert("L"))
 im2 = np.array(Image.open("data/crans_2_small.jpg").convert("L"))
+#im2 = imtools.imresize(im1, [int(im1.shape[1]/2), int(im1.shape[0]/2)])
 
 kp1, desc1 = sift.detect_and_compute(im1)
 kp2, desc2 = sift.detect_and_compute(im2)

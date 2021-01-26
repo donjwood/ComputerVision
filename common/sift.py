@@ -12,7 +12,11 @@ def detect_and_compute(im, edge_threshold = 10, contrast_threshold=0.04):
     cv_sift = cv.SIFT_create(0, 3, contrast_threshold, edge_threshold, 1.6)
 
     # Get key points and descriptors
-    return cv_sift.detectAndCompute(im,None)
+    cv_kp, desc = cv_sift.detectAndCompute(im,None)
+
+    return opencv_kp_to_pcv_kp(cv_kp), desc
+
+
 
 def plot_features(im,locs,circle=False):
     """ Show image with features. input: im (image as array), 
@@ -20,17 +24,16 @@ def plot_features(im,locs,circle=False):
 
     def draw_circle(c,r):
         t = np.arange(0,1.01,.01)*2*np.pi
-        x = r*np.cos(t) + c[0]
-        y = r*np.sin(t) + c[1]
+        x = r*np.cos(t) + c[1]
+        y = r*np.sin(t) + c[0]
         plt.plot(x,y,'b',linewidth=2)
 
     plt.imshow(im)
     if circle:
-        for kp in locs:
-            draw_circle([kp.pt[0],kp.pt[1]],kp.size) 
-    else:
-        for kp in locs:        
-            plt.plot(kp.pt[0],kp.pt[1],'ob')
+        for p in locs:
+            draw_circle(p[:2],p[2]) 
+    else:     
+        plt.plot(locs[:,0],locs[:,1],'ob')
     plt.axis('off')
 
 
@@ -110,5 +113,15 @@ def plot_matches(im1,im2,locs1,locs2,matchscores,show_below=True):
     cols1 = im1.shape[1]
     for i,m in enumerate(matchscores):
         if m>0:
-            plt.plot([locs1[i].pt[0],locs2[m].pt[0]+cols1],[locs1[i].pt[1],locs2[m].pt[1]],'c')
+            plt.plot([locs1[i][1],locs2[m][1]+cols1],[locs1[i][0],locs2[m][0]],'c')
     plt.axis('off')
+
+def opencv_kp_to_pcv_kp(opencv_kp):
+    """
+    Converts OpenCV key points to the style used by the "Programming Computer Vision" book.
+    This was done because I found it a headache to reformat all the OpenCV points when going 
+    through later examples.
+    """
+
+    # Key points in open CV are (x,y), but (row,col) in the PCV book. So, they are reversed here.
+    return np.array([[kp.pt[1], kp.pt[0], kp.size, kp.angle] for kp in opencv_kp])
