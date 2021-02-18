@@ -159,3 +159,42 @@ def panorama(H,fromim,toim,padding=2400,delta=2400):
 
     return toim_t
     
+"""
+Chapter 3, exercise 1 solution.
+Takes an image and row/col corner points of a rectangle from top-left to top-right counter-clockwise and
+translates the image to the front.
+"""
+def rectangle_to_front (fromim, rowcol_corners):
+
+    # check if images are grayscale or color
+    is_color = len(fromim.shape) == 3
+
+    # Find max row, col values
+    max_fp = np.amax(rowcol_corners, 1)
+
+    # Find min row, col values
+    min_fp = np.amin(rowcol_corners, 1)
+
+    # Find difference. This will be the dimensions of the new image.
+    to_height, to_width = max_fp - min_fp
+
+    # Create matrices of from points and to points
+    fp = np.vstack((rowcol_corners, np.ones(4)))
+    tp = np.array([[0,to_height,to_height,0],[0,0,to_width,to_width],[1,1,1,1]])
+
+    # Use corners to create triangles. There are only 4 points to work with, so splitting into two 
+    # triangles like the Beatles billboard example.
+    x = [0,0,to_width,to_width]
+    y = [0,to_height,to_height,0]
+    tri = triangulate_points(x,y)
+
+    # Create empty image
+    if is_color:
+        im_empty = np.zeros([to_height,to_width,3],dtype=np.uint8)
+    else:
+        im_empty = np.zeros([to_height,to_width],dtype=np.uint8)
+
+    # Warp with triangles
+    toim = pw_affine(fromim,im_empty,fp,tp,tri)
+
+    return toim
