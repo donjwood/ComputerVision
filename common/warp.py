@@ -20,17 +20,40 @@ def image_in_image(im1,im2,tp):
     H = homography.Haffine_from_points(tp,fp)
     im1_t = ndimage.affine_transform(im1,H[:2,:2],
             (H[0,2],H[1,2]),im2.shape[:2])
-    alpha = (im1_t > 0)
+    alpha = alpha_for_warped_image(im1_t)
 
     # Fix the alpha mask which is false anywhere the embedded image is black.
     # This will make any columns true between the first and last true in a row.
+    #for row in alpha:
+    #    true_cols = np.where(row)[0]
+    #    if len(true_cols) > 0:
+    #        row[min(true_cols):max(true_cols)] = True
+
+    # np.where uses the mask to return im1_t where true, im2 where false.
+    return np.where(alpha, im1_t, im2)
+
+def alpha_for_warped_image(warped_im):
+    """
+    Solution for chapter 3, exercise 2.
+    Takes a warped image and computes the alpha map
+    for blending.
+    """
+    # Creates the initial alpha mask by setting it to true wherever the
+    # value in the image is greater than 0. The problem is then the 
+    # black points in the image will be 0 in the alpha map.
+
+    alpha = (warped_im > 0)
+
+    # Loop through all the rows in the alpha map and find out if there
+    # are any true values. If there are, make all values between the minimum true
+    # column and maximum true column true. This will eliminate the false values
+    # created by black pixels.
     for row in alpha:
         true_cols = np.where(row)[0]
         if len(true_cols) > 0:
             row[min(true_cols):max(true_cols)] = True
 
-    # np.where uses the mask to return im1_t where true, im2 where false.
-    return np.where(alpha, im1_t, im2)
+    return alpha
 
 def alpha_for_triangle(points,m,n):
     """ Creates alpha map of size (m,n)
@@ -159,12 +182,13 @@ def panorama(H,fromim,toim,padding=2400,delta=2400):
 
     return toim_t
     
-"""
-Chapter 3, exercise 1 solution.
-Takes an image and row/col corner points of a rectangle from top-left to top-right counter-clockwise and
-translates the image to the front.
-"""
 def rectangle_to_front (fromim, rowcol_corners):
+    """
+    Chapter 3, exercise 1 solution.
+    Takes an image and row/col corner points of a rectangle 
+    from top-left to top-right counter-clockwise and
+    translates the image to the front.
+    """
 
     # check if images are grayscale or color
     is_color = len(fromim.shape) == 3
