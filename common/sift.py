@@ -77,7 +77,7 @@ def match_twosided(desc1,desc2,threshold=0.5):
     # remove matches that are not symmetric
     for n in ndx_12:
         if matches_21[matches_12[n]] != n:
-            matches_12[n] = -1
+            matches_12[n] = 0
 
     return matches_12
 
