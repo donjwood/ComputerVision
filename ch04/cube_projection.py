@@ -25,8 +25,14 @@ fp = homography.make_homog(l0[ndx,:2].T)
 ndx2 = [int(matches[i]) for i in ndx]
 tp = homography.make_homog(l1[ndx2,:2].T)
 
+# This differs from the book: Swap coordinates in the from/to points because they are row/col
+# whereas the Camera plots are x/y. If they aren't swapped before goint into the 
+# H_from_ransac method, H will not be computed correctly for the camera translation.
+fp_xy = np.array([fp[1,:],fp[0,:],fp[2,:]])
+tp_xy = np.array([tp[1,:],tp[0,:],tp[2,:]])
+
 model = homography.RansacModel()
-H = homography.H_from_ransac(fp, tp, model)[0]
+H = homography.H_from_ransac(fp_xy, tp_xy, model)[0]
 # camera calibration
 K = camera.book_calibration((747,1000))
 
@@ -35,6 +41,7 @@ box = objects3d.cube_points([0,0,0.1],0.1)
 
 # project bottom square in first image
 cam1 = camera.Camera(np.hstack((K,np.dot(K,np.array([[0],[0],[-1]])))))
+
 # first points are the bottom square
 box_cam1 = cam1.project(homography.make_homog(box[:,:5]))
 
