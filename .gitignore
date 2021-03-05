@@ -1,2 +1,4 @@
 __pycache__/
 /graphs/
+.python-version
+.vscode

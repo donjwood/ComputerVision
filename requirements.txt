@@ -5,3 +5,5 @@ matplotlib
 opencv-python
 pydot
 imageio
+pygame
+PyOpenGL

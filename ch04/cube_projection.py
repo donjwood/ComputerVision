@@ -5,6 +5,7 @@ from PIL import Image
 from scipy import ndimage
 import numpy as np
 import pylab as plt
+import pickle
 
 from common import objects3d
 from common import homography
@@ -61,6 +62,11 @@ box_cam2 = cam2.project(homography.make_homog(box))
 point = np.array([1,1,0,1]).T
 print(homography.normalize(np.dot(np.dot(H,cam1.P),point)))
 print(cam2.project(point))
+
+# Save AR camera for future examples
+with open('pickle/ar_camera.pkl', 'wb') as f:
+    pickle.dump(K,f)
+    pickle.dump(np.dot(np.linalg.inv(K), cam2.P),f)
 
 # 2D projection of bottom square
 plt.figure()
